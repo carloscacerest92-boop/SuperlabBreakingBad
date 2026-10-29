@@ -18,7 +18,7 @@
         </RollingFile>
 
         <!-- Evidencia estática individual por cada ejecución -->
-        <File name="EvidenceAppender" fileName="logs/evidencias/ejecucion_${sys:logTimestamp}.log">
+        <File name="EvidenceAppender" fileName="logs/evidencias/ejecucion_${sys:logTimestamp:-${date:dd-MM-yyyy_HH-mm-ss}}.log">
             <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
     </Appenders>

@@ -43,3 +43,14 @@
 2026-10-29 10:19:42.264 [main] INFO  superlab.persistencia.FicheroTexto - Operación guardada en texto: Conclusión: Riesgo de explosión térmica. El sistema de enfriamiento falló.
 2026-10-29 10:19:42.265 [main] INFO  superlab.persistencia.FicheroBinario - Registro binario escrito en índice 0: ID=1, Valor=355.0
 2026-10-29 10:19:42.280 [main] INFO  superlab.persistencia.FicheroJson - Estado estructurado del laboratorio guardado en JSON.
+2026-10-29 10:33:05.164 [main] INFO  superlab.persistencia.FicheroTexto - Operación guardada en texto: ALERTA CRÍTICA: Fallo detectado
+2026-10-29 10:33:05.168 [main] INFO  superlab.persistencia.FicheroBinario - Registro binario escrito en índice 0: ID=1, Valor=350.0
+2026-10-29 10:33:05.206 [main] INFO  superlab.persistencia.FicheroJson - Estado estructurado del laboratorio guardado en JSON.
+2026-10-29 10:33:05.207 [main] INFO  superlab.persistencia.FicheroTexto - Historial leído. Total de líneas: 1
+2026-10-29 10:33:05.277 [main] INFO  superlab.persistencia.FicheroJson - Estado del laboratorio cargado desde JSON correctamente.
+2026-10-29 10:33:05.302 [main] INFO  superlab.persistencia.FicheroTexto - Operación guardada en texto: Lote de prueba iniciado.
+2026-10-29 10:33:05.303 [main] INFO  superlab.persistencia.FicheroTexto - Historial leído. Total de líneas: 1
+2026-10-29 10:33:05.312 [main] INFO  superlab.persistencia.FicheroJson - Estado estructurado del laboratorio guardado en JSON.
+2026-10-29 10:33:05.315 [main] INFO  superlab.persistencia.FicheroJson - Estado del laboratorio cargado desde JSON correctamente.
+2026-10-29 10:33:05.327 [main] INFO  superlab.persistencia.FicheroBinario - Registro binario escrito en índice 0: ID=101, Valor=180.0
+2026-10-29 10:33:05.329 [main] INFO  superlab.persistencia.FicheroBinario - Estado modificado en índice 0 al valor 99
