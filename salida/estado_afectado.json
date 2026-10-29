@@ -1,0 +1,12 @@
+{
+  "zona" : "Zona Principal",
+  "elementos" : [ {
+    "id" : "R1",
+    "tipo" : "REACTOR",
+    "estado" : "SOBRECALENTADO"
+  }, {
+    "id" : "V1",
+    "tipo" : "VENTILACION",
+    "estado" : "OPERATIVO"
+  } ]
+}

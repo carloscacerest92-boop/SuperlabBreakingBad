@@ -1,0 +1,7 @@
+29-10-2026 10:16:24.574 [main] INFO  superlab.simulador.SimuladorApp - Iniciando simulador del Superlaboratorio...
+29-10-2026 10:16:24.585 [main] INFO  superlab.persistencia.FicheroTexto - Operación guardada en texto: Inicio de ciclo de cocinado. Lote #402.
+29-10-2026 10:16:24.586 [main] INFO  superlab.persistencia.FicheroBinario - Registro binario escrito en índice 0: ID=1, Valor=180.0
+29-10-2026 10:16:24.619 [main] INFO  superlab.persistencia.FicheroJson - Estado estructurado del laboratorio guardado en JSON.
+29-10-2026 10:16:24.620 [main] INFO  superlab.persistencia.FicheroBinario - Registro binario escrito en índice 0: ID=1, Valor=181.97485418309637
+29-10-2026 10:16:24.621 [main] INFO  superlab.persistencia.FicheroTexto - Operación guardada en texto: Temperatura estable. Continuando síntesis.
+29-10-2026 10:16:24.622 [main] INFO  superlab.simulador.SimuladorApp - Simulador finalizado.

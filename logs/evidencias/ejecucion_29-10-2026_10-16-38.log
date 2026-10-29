@@ -1,0 +1,4 @@
+29-10-2026 10:16:38.566 [main] INFO  superlab.analizador.AnalizadorForenseApp - Iniciando analizador forense de datos...
+29-10-2026 10:16:38.636 [main] INFO  superlab.persistencia.FicheroTexto - Historial leído. Total de líneas: 4
+29-10-2026 10:16:38.690 [main] INFO  superlab.persistencia.FicheroJson - Estado del laboratorio cargado desde JSON correctamente.
+29-10-2026 10:16:38.691 [main] INFO  superlab.analizador.AnalizadorForenseApp - Análisis concluido. Incidente identificado: INDETERMINADO

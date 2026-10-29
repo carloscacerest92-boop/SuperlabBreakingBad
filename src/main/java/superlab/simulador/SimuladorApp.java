@@ -10,17 +10,18 @@ import superlab.persistencia.FicheroJson;
 import superlab.persistencia.FicheroTexto;
 
 import java.nio.file.Path;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Random;
 
 public class SimuladorApp {
+    // El bloque static ejecuta el ajuste ANTES de que Log4j cargue la clase
+    static {
+        System.setProperty("logTimestamp", new java.text.SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new java.util.Date()));
+    }
+
     private static final Logger logger = LogManager.getLogger(SimuladorApp.class);
 
     public static void main(String[] args) {
-        System.setProperty("logTimestamp", new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date()));
-
         Path rutaTexto = Path.of("datos/historial_operaciones.txt");
         Path rutaBinario = Path.of("datos/telemetria_reactores.dat");
         Path rutaJson = Path.of("datos/estado_laboratorio.json");

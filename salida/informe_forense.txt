@@ -1,0 +1,4 @@
+INFORME FORENSE DEFINITIVO
+Incidente: SOBRECALENTAMIENTO_REACTOR
+Efectos: Temperatura 355.0°C registrada. Reactor R1 comprometido.
+Conclusión: Riesgo de explosión térmica. El sistema de enfriamiento falló.
