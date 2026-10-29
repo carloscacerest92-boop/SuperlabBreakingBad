@@ -1,4 +1,4 @@
-package superlab.excepciones.modelo;
+package superlab.modelo;
 
 public enum Incidente {
     SOBRECALENTAMIENTO_REACTOR,
