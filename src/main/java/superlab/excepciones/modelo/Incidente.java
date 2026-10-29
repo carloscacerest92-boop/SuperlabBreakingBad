@@ -1,0 +1,11 @@
+package superlab.excepciones.modelo;
+
+public enum Incidente {
+    SOBRECALENTAMIENTO_REACTOR,
+    FUGA_METILAMINA,
+    CONTAMINACION_MOSCA,
+    FALLO_VENTILACION_GAS,
+    INCURSION_DEA,
+    EXPLOSION_CENTRIFUGADORA,
+    INDETERMINADO
+}
