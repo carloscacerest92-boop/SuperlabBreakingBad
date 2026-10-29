@@ -32,34 +32,46 @@ public class AnalizadorForenseApp {
 
         try {
             List<String> historial = textoIn.leerHistorial();
-            double temperatura = binarioIn.leerValor(0);
+            double valorMedicion = binarioIn.leerValor(0);
             EstadoLaboratorio estado = jsonIn.leerEstado();
 
-            Incidente incidenteDetectado = Incidente.INDETERMINADO;
-
-            boolean hayAlertaTexto = historial.stream().anyMatch(linea -> linea.contains("ALERTA CRÍTICA"));
-            boolean hayTemperaturaAnomala = temperatura > 300.0;
-            boolean hayEstructuraAfectada = estado.getElementos() != null && estado.getElementos().stream()
-                    .anyMatch(e -> e.getId().equals("R1") && e.getEstado().equals("SOBRECALENTADO"));
-
-            if (hayAlertaTexto && hayTemperaturaAnomala && hayEstructuraAfectada) {
-                incidenteDetectado = Incidente.SOBRECALENTAMIENTO_REACTOR;
-            }
-
+            Incidente incidenteDetectado = identificarIncidente(historial, valorMedicion, estado);
             logger.info("Análisis concluido. Incidente identificado: {}", incidenteDetectado);
 
             if (incidenteDetectado != Incidente.INDETERMINADO) {
                 textoOut.registrarOperacion("INFORME FORENSE DEFINITIVO");
                 textoOut.registrarOperacion("Incidente: " + incidenteDetectado);
-                textoOut.registrarOperacion("Efectos: Temperatura " + temperatura + "°C registrada. Reactor R1 comprometido.");
-                textoOut.registrarOperacion("Conclusión: Riesgo de explosión térmica. El sistema de enfriamiento falló.");
+                textoOut.registrarOperacion("Efectos: Valor anómalo " + valorMedicion + " registrado en telemetría.");
+                textoOut.registrarOperacion("Conclusión: Compromiso del sistema verificado.");
 
-                binarioOut.escribirRegistro(0, 1, 10, temperatura, 99);
+                binarioOut.escribirRegistro(0, 1, 10, valorMedicion, 99);
                 jsonOut.guardarEstado(estado);
             }
 
         } catch (IOException e) {
             logger.error("Error de E/S al leer o escribir las evidencias", e);
         }
+    }
+
+    public static Incidente identificarIncidente(List<String> historial, double valor, EstadoLaboratorio estado) {
+        String textoUnificado = String.join(" ", historial).toUpperCase();
+        boolean estadoAfectado = estado.getElementos() != null && estado.getElementos().stream()
+                .anyMatch(e -> !e.getEstado().equals("OPERATIVO"));
+
+        if (textoUnificado.contains("SOBRECALENTAMIENTO") && valor > 300.0) {
+            return Incidente.SOBRECALENTAMIENTO_REACTOR;
+        } else if (textoUnificado.contains("FUGA") && valor < 10.0) {
+            return Incidente.FUGA_METILAMINA;
+        } else if (textoUnificado.contains("CONTAMINACION") && valor < 90.0) {
+            return Incidente.CONTAMINACION_MOSCA;
+        } else if (textoUnificado.contains("VENTILACION") && valor > 80.0) {
+            return Incidente.FALLO_VENTILACION_GAS;
+        } else if (textoUnificado.contains("INCURSION") || valor == 999.0) {
+            return Incidente.INCURSION_DEA;
+        } else if (textoUnificado.contains("EXPLOSION") && valor > 10000.0) {
+            return Incidente.EXPLOSION_CENTRIFUGADORA;
+        }
+
+        return Incidente.INDETERMINADO;
     }
 }

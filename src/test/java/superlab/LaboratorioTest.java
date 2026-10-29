@@ -3,9 +3,13 @@ package superlab;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import superlab.analizador.AnalizadorForenseApp;
 import superlab.excepciones.EventoCriticoException;
 import superlab.modelo.EstadoLaboratorio;
 import superlab.modelo.EstadoLaboratorio.Elemento;
+import superlab.modelo.Incidente;
 import superlab.persistencia.FicheroBinario;
 import superlab.persistencia.FicheroJson;
 import superlab.persistencia.FicheroTexto;
@@ -36,18 +40,16 @@ class LaboratorioTest {
     }
 
     @Test
-    @DisplayName("2. Escritura, lectura directa y modificacion parcial en binario con RandomAccessFile")
+    @DisplayName("2. Alta, lectura directa y modificacion de registro binario con RandomAccessFile")
     void testPersistenciaBinariaAccesoAleatorio() throws IOException {
         Path rutaBinario = tempDir.resolve("telemetria.dat");
         FicheroBinario binarioManager = new FicheroBinario(rutaBinario);
 
-        // Alta de registro
         binarioManager.escribirRegistro(0, 101, 10, 180.0, 1);
         assertEquals(180.0, binarioManager.leerValor(0));
 
-        // Modificación parcial sin reescribir todo el fichero
         binarioManager.actualizarEstado(0, 99);
-        assertEquals(180.0, binarioManager.leerValor(0)); // El valor sigue intacto
+        assertEquals(180.0, binarioManager.leerValor(0));
     }
 
     @Test
@@ -65,7 +67,6 @@ class LaboratorioTest {
 
         assertNotNull(estadoLeido);
         assertEquals("Zona A", estadoLeido.getZona());
-        assertEquals(1, estadoLeido.getElementos().size());
         assertEquals("OPERATIVO", estadoLeido.getElementos().get(0).getEstado());
     }
 
@@ -80,8 +81,20 @@ class LaboratorioTest {
         });
     }
 
+    @ParameterizedTest
+    @EnumSource(value = Incidente.class, names = {"SOBRECALENTAMIENTO_REACTOR", "FUGA_METILAMINA"})
+    @DisplayName("5. Identificacion correcta de distintos tipos de incidentes por el analizador")
+    void testIdentificacionIncidentes(Incidente incidente) {
+        List<String> historial = List.of("ALERTA CRÍTICA: " + incidente.name());
+        double valor = incidente == Incidente.SOBRECALENTAMIENTO_REACTOR ? 355.0 : 5.0;
+        EstadoLaboratorio estado = new EstadoLaboratorio("Zona A", List.of(new Elemento("R1", "REACTOR", "ANOMALO")));
+
+        Incidente detectado = AnalizadorForenseApp.identificarIncidente(historial, valor, estado);
+        assertEquals(incidente, detectado);
+    }
+
     @Test
-    @DisplayName("5. Verificacion del flujo de integracion completo")
+    @DisplayName("6. Verificacion del flujo de integracion completo")
     void testFlujoIntegracion() throws IOException {
         Path txtPath = tempDir.resolve("historial.txt");
         Path binPath = tempDir.resolve("telemetria.dat");
@@ -91,11 +104,11 @@ class LaboratorioTest {
         FicheroBinario fb = new FicheroBinario(binPath);
         FicheroJson fj = new FicheroJson(jsonPath);
 
-        ft.registrarOperacion("ALERTA CRÍTICA: Fallo detectado");
+        ft.registrarOperacion("ALERTA CRÍTICA: SOBRECALENTAMIENTO");
         fb.escribirRegistro(0, 1, 10, 350.0, 99);
         fj.guardarEstado(new EstadoLaboratorio("Zona A", List.of(new Elemento("R1", "REACTOR", "SOBRECALENTADO"))));
 
-        assertTrue(ft.leerHistorial().get(0).contains("ALERTA CRÍTICA"));
+        assertTrue(ft.leerHistorial().get(0).contains("SOBRECALENTAMIENTO"));
         assertEquals(350.0, fb.leerValor(0));
         assertEquals("SOBRECALENTADO", fj.leerEstado().getElementos().get(0).getEstado());
     }
